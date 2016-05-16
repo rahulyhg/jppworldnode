@@ -92,7 +92,7 @@ var models = {
   getOne: function(data, callback) {
     this.findOne({
       "_id": data._id
-    }).exec(function(err, found) {
+    }).populate("user").exec(function(err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -112,7 +112,7 @@ var models = {
     async.parallel([
         function(callback) {
           Question.count({
-            armyName: {
+            question1option: {
               '$regex': check
             }
           }).exec(function(err, number) {
@@ -130,10 +130,10 @@ var models = {
         },
         function(callback) {
           Question.find({
-            armyName: {
+            question1option: {
               '$regex': check
             }
-          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
+          }).populate("user").skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
             if (err) {
               console.log(err);
               callback(err, null);

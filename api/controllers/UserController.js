@@ -49,6 +49,55 @@ module.exports = {
 				});
 		}
   },
+  loginFacebook: function(req, res) {
+      var callback = function(err, data) {
+          if (err || _.isEmpty(data)) {
+              res.json({
+                  error: err,
+                  value: false
+              });
+          } else {
+              req.session.user = data;
+              req.session.save(function(err) {
+                  if (err) {
+                      res.json(err);
+                  } else {
+                      res.json({
+                          data: "Login Successful",
+                          value: true
+                      });
+                  }
+              });
+          }
+      };
+      passport.authenticate('facebook', {
+          scope: ['public_profile', 'user_friends', 'email']
+      }, callback)(req, res);
+  },
+  loginTwitter: function(req, res) {
+      var callback = function(err, data) {
+          if (err || _.isEmpty(data)) {
+              res.json({
+                  error: err,
+                  value: false
+              });
+          } else {
+              req.session.user = data;
+              // console.log(req.session);
+              req.session.save(function(err) {
+                  if (err) {
+                      res.json(err);
+                  } else {
+                      res.json({
+                          data: "Login Successful",
+                          value: true
+                      });
+                  }
+              });
+          }
+      };
+      passport.authenticate('twitter', {}, callback)(req, res);
+  },
 	findLimited: function (req, res) {
 		if (req.body) {
 				if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
