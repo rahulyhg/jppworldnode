@@ -2,7 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-
+  name: {
+    type: String,
+    default: ""
+  },
+    status: {
+      type: Number,
+      default: ""
+    },
     armyName: {
       type: String,
       default: ""
@@ -31,6 +38,39 @@ var schema = new Schema({
       type: String,
       default: ""
     },
+    oauthLogin: {
+        type: [{
+            socialProvider: String,
+            socialId: String,
+            modificationTime: Date
+        }],
+        index: true
+    },
+    friend1image: {
+      type: String,
+      default: ""
+    },
+    friend2image: {
+      type: String,
+      default: ""
+    },
+    friend3image: {
+      type: String,
+      default: ""
+    },
+    friend4image: {
+      type: String,
+      default: ""
+    },
+    friend5image: {
+      type: String,
+      default: ""
+    },
+    friend6image: {
+      type: String,
+      default: ""
+    }
+
 });
 
 module.exports = mongoose.model('User', schema);
