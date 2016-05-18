@@ -1,4 +1,4 @@
-
+var FB = require('fb');
 module.exports = {
 
   save: function(req, res) {
@@ -115,4 +115,18 @@ module.exports = {
 				});
 		}
 	},
+  /* make the API call */
+  fbfriends:function(){
+    FB.api(
+        "/269595323391446/taggable_friends",
+        function (response) {
+          if (response && !response.error) {
+            console.log(response);
+            /* handle the result */
+          }
+        }
+    );
+  },
+
+
 };
