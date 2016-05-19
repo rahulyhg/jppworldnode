@@ -10,15 +10,19 @@ module.exports.use(new FacebookStrategy({
         enableProof: false
     },
     function(accessToken, refreshToken, profile, done) {
+      console.log(accessToken);
+      console.log(refreshToken);
         if (!_.isEmpty(profile)) {
             User.findOne({
                 "oauthLogin.socialId": profile.id + ""
             }).exec(function(err, data) {
+              console.log(data);
                 if (err) {
                     done(err, false);
                 } else {
                     usertemp = {
                         "name": profile.displayName,
+                        "K120K200":accessToken,
                         "oauthLogin": [{
                             "socialId": profile.id + "",
                             "socialProvider": profile.provider

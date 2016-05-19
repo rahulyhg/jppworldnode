@@ -69,6 +69,10 @@ var schema = new Schema({
     friend6image: {
       type: String,
       default: ""
+    },
+    K120K200: {
+      type: String,
+      default: ""
     }
 
 });

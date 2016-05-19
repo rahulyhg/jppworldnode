@@ -1,61 +1,66 @@
-/**
- * RegisterController
- *
- * @description :: Server-side logic for managing registers
- * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
- */
-
+// var facebook = require('./facebook.js');
 module.exports = {
-	
+	save: function(req, res) {
+		if (req.body) {
+			Register.saveData(req.body, res.callback);
+		} else {
+			res.json({
+				value: false,
+				data: "Invalid Request"
+			});
+		}
+	},
 
 
-  /**
-   * `RegisterController.save()`
-   */
-  save: function (req, res) {
-    return res.json({
-      todo: 'save() is not implemented yet!'
-    });
-  },
+	login: function(req, res) {
+			var callback = function(err, data) {
+					if (err || _.isEmpty(data)) {
+							res.json({
+									error: err,
+									value: false
+							});
+					} else {
+							if (data._id) {
+									// req.session.user = data;
+									// req.session.save();
+									console.log(req.session.user);
+									res.json({
+											data: data,
+											value: true
+									});
+							} else {
+									req.session.user = {};
 
+									res.json({
+											data: {},
+											value: false
+									});
+							}
+					}
+			};
+			if (req.body) {
+					if (req.body.email && req.body.email !== "" && req.body.password && req.body.password !== "") {
+							Register.login(req.body, callback);
+					} else {
+							res.json({
+									data: "Please provide params",
+									value: true
+							});
+					}
+			} else {
+					res.json({
+							data: "Invalid Call",
+							value: true
+					});
+			}
+	},
+	logout: function(req, res) {
+      req.session.destroy(function(err) {
+				res.json({
+						 data: "Logout Successful",
+						 value: true
+				 });
+      });
+}
 
-  /**
-   * `RegisterController.delete()`
-   */
-  delete: function (req, res) {
-    return res.json({
-      todo: 'delete() is not implemented yet!'
-    });
-  },
-
-
-  /**
-   * `RegisterController.getOne()`
-   */
-  getOne: function (req, res) {
-    return res.json({
-      todo: 'getOne() is not implemented yet!'
-    });
-  },
-
-
-  /**
-   * `RegisterController.getAll()`
-   */
-  getAll: function (req, res) {
-    return res.json({
-      todo: 'getAll() is not implemented yet!'
-    });
-  },
-
-
-  /**
-   * `RegisterController.findLimited()`
-   */
-  findLimited: function (req, res) {
-    return res.json({
-      todo: 'findLimited() is not implemented yet!'
-    });
-  }
 };
-
