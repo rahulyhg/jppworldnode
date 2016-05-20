@@ -24,6 +24,7 @@
     "passport-facebook": "^2.1.0",
     "passport-twitter": "^1.0.4",
     "rc": "1.0.1",
+    "request": "^2.72.0",
     "sails": "~0.12.3",
     "sails-disk": "~0.10.9"
   },

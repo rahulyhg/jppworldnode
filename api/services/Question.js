@@ -64,6 +64,21 @@ var models = {
       });
     }
   },
+
+
+  storeAnswer: function(data, callback) {
+    var question = this(data);
+    question.timestamp = new Date();
+      question.save(function(err, created) {
+        if (err) {
+          callback(err, null);
+        } else if (created) {
+          callback(null, created);
+        } else {
+          callback(null, {});
+        }
+      });
+  },
   deleteData: function(data, callback) {
     this.findOneAndRemove({
       _id: data._id

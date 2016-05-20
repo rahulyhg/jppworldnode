@@ -4,19 +4,17 @@ module.exports = require("passport");
 
 
 module.exports.use(new FacebookStrategy({
-        clientID: "1745055379070800",
-        clientSecret: "426da60c20fbda59b05202d3531b5739",
+        clientID: "1211267655585226",
+        clientSecret: "06460de4058ce9fd6ff6e074787ab723",
         callbackURL: "/user/loginFacebook/",
+        profileFields: ['id', 'displayName', 'photos', 'email'],
         enableProof: false
     },
     function(accessToken, refreshToken, profile, done) {
-      console.log(accessToken);
-      console.log(refreshToken);
         if (!_.isEmpty(profile)) {
             User.findOne({
                 "oauthLogin.socialId": profile.id + ""
             }).exec(function(err, data) {
-              console.log(data);
                 if (err) {
                     done(err, false);
                 } else {
@@ -29,7 +27,9 @@ module.exports.use(new FacebookStrategy({
                         }],
                         "status": 1
                     };
-
+                    if (profile.photos && profile.photos.length > 0) {
+                        usertemp.profilePic = profile.photos[0].value;
+                    }
                     if (_.isEmpty(data)) {
                         var user = User(usertemp);
                         user.save(function(err, data2) {
@@ -50,14 +50,12 @@ module.exports.use(new FacebookStrategy({
 
 
 module.exports.use(new TwitterStrategy({
-        consumerKey: "g3dfZHQRzRk1q3tjsvRPMz4aC",
-        consumerSecret: "GChwtbgxn3ZbYogqCnFmuvJoPHpFKodVLHH2WLSvhG7feURyhJ",
+        consumerKey: "ScyOXj37xkvmkY9hi6edFsLaz",
+        consumerSecret: "4J1vaHxX1rr84ygGHBrADkFQS32Nb9lNkHKwRuM4ykfwgVj9qh",
         callbackURL: "/user/loginTwitter/",
     },
     function(token, tokenSecret, profile, done) {
-
         if (!_.isEmpty(profile)) {
-
             User.findOne({
                 "oauthLogin.socialId": profile.id + ""
             }).exec(function(err, data) {
@@ -72,7 +70,9 @@ module.exports.use(new TwitterStrategy({
                         }],
                         "status": 1
                     };
-
+                    if (profile.photos && profile.photos.length > 0) {
+                        usertemp.profilePic = profile.photos[0].value;
+                    }
                     if (_.isEmpty(data)) {
                         var user = User(usertemp);
                         user.save(function(err, data2) {

@@ -73,6 +73,10 @@ var schema = new Schema({
     K120K200: {
       type: String,
       default: ""
+    },
+    profilePic: {
+      type: String,
+      default: ""
     }
 
 });
