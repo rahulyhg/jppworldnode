@@ -156,7 +156,10 @@ module.exports = {
 
   getFacebookDetails: function(req, res) {
     if (req.session.user) {
+      console.log(" hey ");
+      console.log(req.session.user);
       var $access_token = req.session.user.K120K200;
+      var $socialid = req.session.user.oauthLogin.socialid;
       request.get('https://graph.facebook.com/v2.6/me/taggable_friends?access_token=' + $access_token + '&format=json&limit=1000', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(body); // Show the HTML for the Google homepage.
