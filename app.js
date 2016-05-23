@@ -29,7 +29,7 @@ mongoose.connect('mongodb://localhost:27017/jppworld', function (err) {
     }
 });
 // Ensure a "sails" can be located:
-(function() {
+(function() { 
   var sails;
   try {
     sails = require('sails');

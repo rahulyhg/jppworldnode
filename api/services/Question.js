@@ -69,15 +69,27 @@ var models = {
   storeAnswer: function(data, callback) {
     var question = this(data);
     question.timestamp = new Date();
-      question.save(function(err, created) {
-        if (err) {
-          callback(err, null);
-        } else if (created) {
-          callback(null, created);
-        } else {
-          callback(null, {});
-        }
-      });
+    this.findOne({
+      "user": data.user
+    }).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && Object.keys(found).length > 0) {
+        callback(null, found);
+      } else {
+        question.save(function(err, created) {
+          if (err) {
+            callback(err, null);
+          } else if (created) {
+            callback(null, created);
+          } else {
+            callback(null, {});
+          }
+        });
+      }
+    });
+
   },
   deleteData: function(data, callback) {
     this.findOneAndRemove({
