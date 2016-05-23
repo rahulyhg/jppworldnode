@@ -6,78 +6,78 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-    status: {
-      type: Number,
-      default: ""
-    },
-    armyName: {
-      type: String,
-      default: ""
-    },
-    friend1: {
-      type: String,
-      default: ""
-    },
-    friend2: {
-      type: String,
-      default: ""
-    },
-    friend3: {
-      type: String,
-      default: ""
-    },
-    friend4: {
-      type: String,
-      default: ""
-    },
-    friend5: {
-      type: String,
-      default: ""
-    },
-    friend6: {
-      type: String,
-      default: ""
-    },
-    oauthLogin: {
-        type: [{
-            socialProvider: String,
-            socialId: String,
-            modificationTime: Date
-        }],
-        index: true
-    },
-    friend1image: {
-      type: String,
-      default: ""
-    },
-    friend2image: {
-      type: String,
-      default: ""
-    },
-    friend3image: {
-      type: String,
-      default: ""
-    },
-    friend4image: {
-      type: String,
-      default: ""
-    },
-    friend5image: {
-      type: String,
-      default: ""
-    },
-    friend6image: {
-      type: String,
-      default: ""
-    },
-    K120K200: {
-      type: String,
-      default: ""
-    },
-    profilePic: {
-      type: String,
-      default: ""
-    }
+  status: {
+    type: Number,
+    default: ""
+  },
+  armyName: {
+    type: String,
+    default: ""
+  },
+  friend1: {
+    type: String,
+    default: ""
+  },
+  friend2: {
+    type: String,
+    default: ""
+  },
+  friend3: {
+    type: String,
+    default: ""
+  },
+  friend4: {
+    type: String,
+    default: ""
+  },
+  friend5: {
+    type: String,
+    default: ""
+  },
+  friend6: {
+    type: String,
+    default: ""
+  },
+  oauthLogin: {
+    type: [{
+      socialProvider: String,
+      socialId: String,
+      modificationTime: Date
+    }],
+    index: true
+  },
+  friend1image: {
+    type: String,
+    default: ""
+  },
+  friend2image: {
+    type: String,
+    default: ""
+  },
+  friend3image: {
+    type: String,
+    default: ""
+  },
+  friend4image: {
+    type: String,
+    default: ""
+  },
+  friend5image: {
+    type: String,
+    default: ""
+  },
+  friend6image: {
+    type: String,
+    default: ""
+  },
+  K120K200: {
+    type: String,
+    default: ""
+  },
+  profilePic: {
+    type: String,
+    default: ""
+  }
 
 });
 
@@ -110,6 +110,22 @@ var models = {
         }
       });
     }
+  },
+  storeUserData: function(data, callback) {
+    console.log(data);
+    this.findOneAndUpdate({
+      _id: data.user
+    }, data).exec(function(err, updated) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (updated) {
+        callback(null, updated);
+      } else {
+        callback(null, {});
+      }
+    });
+
   },
   deleteData: function(data, callback) {
     this.findOneAndRemove({

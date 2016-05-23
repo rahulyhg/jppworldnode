@@ -12,6 +12,24 @@ module.exports = {
       });
     }
   },
+  storeUserData: function(req, res) {
+    if (req.body) {
+      if (req.session.user) {
+        req.body.user = req.session.user._id;
+        User.storeUserData(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "User Not Logged In"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
   getOne: function(req, res) {
 
@@ -83,9 +101,15 @@ module.exports = {
   profile: function(req, res) {
     var user = req.session.user;
     if (user) {
-      res.json(user);
+      res.json({
+        data: user,
+        value: true
+      });
     } else {
-      res.json({});
+      res.json({
+        data: "User not logged in",
+        value: false
+      });
     }
   },
   loginTwitter: function(req, res) {
@@ -130,10 +154,10 @@ module.exports = {
     }
   },
 
-  getFacebookDetails: function(req,res) {
-    if(req.session.user){
-      var $access_token=req.session.user.K120K200;
-      request.get('https://graph.facebook.com/v2.6/me/taggable_friends?access_token='+$access_token+'&format=json&limit=1000', function (error, response, body) {
+  getFacebookDetails: function(req, res) {
+    if (req.session.user) {
+      var $access_token = req.session.user.K120K200;
+      request.get('https://graph.facebook.com/v2.6/me/taggable_friends?access_token=' + $access_token + '&format=json&limit=1000', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(body); // Show the HTML for the Google homepage.
           res.json({
