@@ -12,12 +12,28 @@ module.exports = {
   },
   storeAnswer: function(req, res) {
     if (req.body) {
-      console.log(req.session.user);
       if (req.session.user) {
-        console.log("data ");
-        console.log(req.session.user);
         req.body.user = req.session.user._id;
         Question.storeAnswer(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "User Not Logged In"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  storeLevel2: function(req, res) {
+    if (req.body) {
+      if (req.session.user) {
+        req.body.user = req.session.user._id;
+        console.log("Store Level 2");
+        Question.storeLevel2(req.body, res.callback);
       } else {
         res.json({
           value: false,

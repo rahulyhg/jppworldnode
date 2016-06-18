@@ -32,6 +32,26 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  speedTime: {
+    type: String,
+    default: ""
+  },
+  speedClick: {
+    type: String,
+    default: ""
+  },
+  accuracy: {
+    type: String,
+    default: ""
+  },
+  memory: {
+    type: Date,
+    default: Date.now
+  },
+  intelligence: {
+    type: String,
+    default: ""
+  },
 });
 
 module.exports = mongoose.model('Question', schema);
@@ -73,7 +93,6 @@ var models = {
       "user": data.user
     }).exec(function(err, found) {
       if (err) {
-        console.log(err);
         callback(err, null);
       } else if (found && Object.keys(found).length > 0) {
         callback(null, found);
@@ -90,6 +109,19 @@ var models = {
       }
     });
 
+  },
+  storeLevel2: function(data, callback) {
+    this.findOneAndUpdate({
+      "user": data.user
+    }, data).exec(function(err, created) {
+      if (err) {
+        callback(err, null);
+      } else if (created) {
+        callback(null, created);
+      } else {
+        callback(null, {});
+      }
+    });
   },
   deleteData: function(data, callback) {
     this.findOneAndRemove({
