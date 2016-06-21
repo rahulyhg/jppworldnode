@@ -13,8 +13,6 @@ var process = require('child_process');
 var lodash = require('lodash');
 var MaxImageSize = 1200;
 var request = require("request");
-var requrl = "http://146.148.4.222/";
-var requrl = "http://localhost:80/";
 var gfs = Grid(mongoose.connections[0].db, mongoose);
 gfs.mongo = mongoose.mongo;
 var Schema = mongoose.Schema;
@@ -25,50 +23,6 @@ var schema = new Schema({
 });
 module.exports = mongoose.model('Config', schema);
 var models = {
-
-    saveData: function(data, callback) {
-        var config = this(data);
-        if (data._id) {
-            this.findOneAndUpdate({
-                _id: data._id
-            }, data, function(err, data2) {
-                if (err) {
-                    callback(err, null);
-                } else {
-                    callback(null, data2);
-                }
-            });
-        } else {
-            config.save(function(err, data2) {
-                if (err) {
-                    callback(err, null);
-                } else {
-                    callback(null, data2);
-                }
-            });
-        }
-
-    },
-    getAll: function(data, callback) {
-        this.find({}, {}, {}, function(err, deleted) {
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, deleted);
-            }
-        });
-    },
-    deleteData: function(data, callback) {
-        this.findOneAndRemove({
-            _id: data._id
-        }, function(err, deleted) {
-            if (err) {
-                callback(err, null)
-            } else {
-                callback(null, deleted)
-            }
-        });
-    },
     GlobalCallback: function(err, data, res) {
         if (err) {
             res.json({
@@ -322,49 +276,6 @@ var models = {
             readstream.pipe(res);
         }
         //error handling, e.g. file does not exist
-    },
-    email: function(data, callback) {
-        Password.find().exec(function(err, userdata) {
-            if (err) {
-                console.log(err);
-                callback(err, null);
-            } else if (userdata && userdata.length > 0) {
-                if (data.filename && data.filename != "") {
-                    request.post({
-                        url: requrl + "config/emailReader/",
-                        json: data
-                    }, function(err, http, body) {
-                        if (err) {
-                            console.log(err);
-                            callback(err, null);
-                        } else {
-                            if (body && body.value != false) {
-                                var sendgrid = require("sendgrid")(userdata[0].name);
-                                sendgrid.send({
-                                    to: data.email,
-                                    from: "info@wohlig.com",
-                                    subject: data.subject,
-                                    html: body
-                                }, function(err, json) {
-                                    if (err) {
-                                        callback(err, null);
-                                    } else {
-                                        callback(null, json);
-
-                                    }
-                                });
-                            } else {
-                                callback({ message: "Some error in html" }, null);
-                            }
-                        }
-                    });
-                } else {
-                    callback({ message: "Please provide params" }, null);
-                }
-            } else {
-                callback({ message: "No api keys found" }, null);
-            }
-        });
     }
 };
 module.exports = _.assign(module.exports, models);
