@@ -1,5 +1,5 @@
 var request = require('request');
-var redirect = "http://wohlig.co.in/pinkpantherworld/#/panther-army";
+var redirect = "http://wohlig.co.in/pinkpantherworld/#/panther-army/level1";
 module.exports = {
 
   save: function(req, res) {
