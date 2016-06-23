@@ -61,7 +61,7 @@ module.exports = {
   },
 
   getQuestionDetail: function(req, res) {
-    var user = req.session.user;
+    req.body.user = req.session.user._id;
     if (user) {
       Question.getQuestionDetail(req.body, res.callback);
     } else {
