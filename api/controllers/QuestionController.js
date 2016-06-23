@@ -32,7 +32,6 @@ module.exports = {
     if (req.body) {
       if (req.session.user) {
         req.body.user = req.session.user._id;
-        console.log("Store Level 2");
         Question.storeLevel2(req.body, res.callback);
       } else {
         res.json({
@@ -74,7 +73,6 @@ module.exports = {
 
   delete: function(req, res) {
     if (req.body) {
-      console.log(req.body);
       Question.deleteData(req.body, res.callback);
     } else {
       res.json({
