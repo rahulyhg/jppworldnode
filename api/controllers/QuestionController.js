@@ -62,7 +62,7 @@ module.exports = {
 
   getQuestionDetail: function(req, res) {
     req.body.user = req.session.user._id;
-    if (user) {
+    if (req.body.user) {
       Question.getQuestionDetail(req.body, res.callback);
     } else {
       res.json({
