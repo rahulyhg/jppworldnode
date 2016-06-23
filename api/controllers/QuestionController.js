@@ -60,6 +60,18 @@ module.exports = {
     }
   },
 
+  getQuestionDetail: function(req, res) {
+    var user = req.session.user;
+    if (user) {
+      Question.getQuestionDetail(req.body, res.callback);
+    } else {
+      res.json({
+        data: "User not logged in",
+        value: false
+      });
+    }
+  },
+
   delete: function(req, res) {
     if (req.body) {
       console.log(req.body);

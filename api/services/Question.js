@@ -162,6 +162,20 @@ var models = {
       }
     });
   },
+  getQuestionDetail: function(data, callback) {
+    this.findOne({
+      "user": data.user
+    }).populate("user").exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && Object.keys(found).length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, {});
+      }
+    });
+  },
   findLimited: function(data, callback) {
     var newreturns = {};
     newreturns.data = [];
